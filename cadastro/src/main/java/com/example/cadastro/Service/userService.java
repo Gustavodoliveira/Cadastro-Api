@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.cadastro.Dtos.user.userRegisterDto;
 import com.example.cadastro.Models.User;
-import com.example.cadastro.repositories.userRepository;
+import com.example.cadastro.repository.userRepository;
 
 @Service
 public class userService {

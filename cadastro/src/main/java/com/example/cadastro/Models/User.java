@@ -2,7 +2,6 @@ package com.example.cadastro.Models;
 
 import com.example.cadastro.Dtos.user.userRegisterDto;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,13 +13,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   public String id;
