@@ -1,5 +1,7 @@
 package com.example.cadastro.Models;
 
+import com.example.cadastro.Dtos.user.userRegisterDto;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,4 +36,11 @@ public class User {
 
   @Column(nullable = false, unique = true)
   private String password;
+
+  public User(userRegisterDto data) {
+    this.name = data.name();
+    this.email = data.email();
+    this.password = data.password();
+    this.userName = data.userName();
+  }
 }
