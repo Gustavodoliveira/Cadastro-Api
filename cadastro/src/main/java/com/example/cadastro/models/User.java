@@ -1,4 +1,11 @@
-package com.example.cadastro.Models;
+package com.example.cadastro.models;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.cadastro.Dtos.user.userRegisterDto;
 
@@ -19,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,10 +44,27 @@ public class User {
   @Column(nullable = false, unique = true)
   private String password;
 
+  @Column()
+  private Roles roles;
+
   public User(userRegisterDto data) {
     this.name = data.name();
     this.email = data.email();
     this.password = data.password();
     this.userName = data.userName();
+    this.roles = data.roles();
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    if (this.roles == Roles.ADMIN)
+      return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+    else
+      return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+  }
+
+  @Override
+  public String getUsername() {
+    return this.userName;
   }
 }
