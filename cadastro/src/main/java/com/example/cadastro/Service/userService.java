@@ -13,13 +13,13 @@ public class userService {
   @Autowired
   private userRepository repository;
 
-  public String saveUser(userRegisterDto data) throws Exception {
+  public User saveUser(userRegisterDto data) throws Exception {
     try {
       this.verifyFieldsNotNull(data);
       User newUser = new User(data);
 
       repository.save(newUser);
-      return "save";
+      return newUser;
     } catch (Exception e) {
       throw new Exception(e);
     }
