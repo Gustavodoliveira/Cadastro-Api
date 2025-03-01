@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +44,12 @@ public class UserController {
     var auth = userService.LoginUser(data);
     var token = tokenService.generateToken((User) auth.getPrincipal());
     return ResponseEntity.ok().body(token);
+  }
+
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity deleteUser(@PathVariable String id) throws Exception {
+    String resp = this.userService.deleteUser(id);
+    return ResponseEntity.ok().body(resp);
+
   }
 }

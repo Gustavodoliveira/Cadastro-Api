@@ -22,7 +22,7 @@ public class TokenService {
     Algorithm algorithm = Algorithm.HMAC256(secret);
     try {
       String token = JWT.create()
-          .withIssuer("chat")
+          .withIssuer("cadastro")
           .withSubject(user.getEmail())
           .withExpiresAt(tokenExpirationTime())
           .sign(algorithm);
@@ -36,7 +36,7 @@ public class TokenService {
     try {
       Algorithm algorithm = Algorithm.HMAC256(secret);
       return JWT.require(algorithm)
-          .withIssuer("chat")
+          .withIssuer("cadastro")
           .build()
           .verify(token)
           .getSubject();

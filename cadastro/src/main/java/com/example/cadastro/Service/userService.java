@@ -25,6 +25,9 @@ public class userService {
   FilterSecurity filterSecurity;
 
   @Autowired
+  TokenService tokenService;
+
+  @Autowired
   private AuthenticationManager authenticationManager;
 
   @Autowired
@@ -80,6 +83,17 @@ public class userService {
 
   // return userUpdate;
   // }
+
+  public String deleteUser(String id) throws Exception {
+    try {
+
+      repository.deleteById(id);
+      return "User delete success";
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+
+  }
 
   public boolean verifyFieldsNotNull(userRegisterDto data) throws Exception {
     if (data.email() == null)
