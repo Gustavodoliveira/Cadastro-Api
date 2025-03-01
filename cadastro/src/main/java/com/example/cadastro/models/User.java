@@ -55,6 +55,14 @@ public class User implements UserDetails {
     this.roles = data.roles();
   }
 
+  public User(userRegisterDto data, String encryptedPassword) {
+    this.email = data.email();
+    this.name = data.name();
+    this.userName = data.userName();
+    this.password = encryptedPassword;
+    this.roles = data.roles();
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     if (this.roles == Roles.ADMIN)

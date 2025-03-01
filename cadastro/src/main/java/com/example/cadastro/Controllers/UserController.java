@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cadastro.Dtos.user.userLoginDto;
 import com.example.cadastro.Dtos.user.userRegisterDto;
 import com.example.cadastro.Service.TokenService;
 import com.example.cadastro.Service.userService;
@@ -34,5 +35,12 @@ public class UserController {
     } catch (Exception e) {
       throw new Exception(e);
     }
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity loginUser(@RequestBody @Validated userLoginDto data) throws Exception {
+    var auth = userService.LoginUser(data);
+    var token = tokenService.generateToken((User) auth.getPrincipal());
+    return ResponseEntity.ok().body(token);
   }
 }
