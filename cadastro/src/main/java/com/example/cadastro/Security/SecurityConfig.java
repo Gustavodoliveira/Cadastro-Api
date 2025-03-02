@@ -29,6 +29,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
+            .requestMatchers(HttpMethod.PATCH, "/user/update/{id}").permitAll()
             .anyRequest().authenticated())
         .addFilterBefore(FilterSecurity, UsernamePasswordAuthenticationFilter.class)
         .build();

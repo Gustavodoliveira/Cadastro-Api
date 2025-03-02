@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.cadastro.Dtos.user.updateUserDto;
 import com.example.cadastro.Dtos.user.userLoginDto;
 import com.example.cadastro.Dtos.user.userRegisterDto;
 import com.example.cadastro.Security.FilterSecurity;
@@ -55,35 +56,42 @@ public class userService {
     return auth;
   }
 
-  // public User updateUser(UpdateUserDto data) {
-  // String token = filterSecurity.recoverToken(this.req);
-  // String userName = tokenService.validateToken(token);
-  // User user = repository.findByEmail(userName);
-  // User userUpdate = new User();
+  public User updateUser(updateUserDto data) {
+    String token = filterSecurity.recoverToken(this.req);
+    String email = tokenService.validateToken(token);
+    User user = repository.findByEmail(email);
+    User userUpdate = new User();
 
-  // userUpdate.setRole(user.getRole());
+    userUpdate.setId(user.getId());
+    userUpdate.setRoles(user.getRoles());
 
-  // if (data.email().isEmpty())
-  // userUpdate.setEmail(user.getEmail());
-  // else
-  // userUpdate.setEmail(data.email());
+    if (data.email().isEmpty())
+      userUpdate.setEmail(user.getEmail());
+    else
+      userUpdate.setEmail(data.email());
 
-  // if (data.userName() == null)
-  // userUpdate.setUserName(user.getUsername());
-  // else
-  // userUpdate.setUserName(data.userName());
+    if (data.userName() == null)
+      userUpdate.setUserName(user.getUsername());
+    else
+      userUpdate.setUserName(data.userName());
 
-  // if (data.newPassword().isEmpty())
-  // userUpdate.setPassword(user.getPassword());
-  // else
-  // userUpdate.setPassword(data.newPassword());
+    if (data.name() == null)
+      userUpdate.setName(user.getName());
+    else
+      userUpdate.setName(data.name());
 
-  // repository.updateUser(userUpdate.getEmail(), userUpdate.getUsername(),
-  // userUpdate.getPassword(),
-  // userName);
+    if (data.newPassword().isEmpty())
+      userUpdate.setPassword(user.getPassword());
+    else
+      userUpdate.setPassword(data.newPassword());
 
-  // return userUpdate;
-  // }
+    String encryptedPassword = new BCryptPasswordEncoder().encode(userUpdate.getPassword());
+
+    repository.updateUser(userUpdate.getEmail(), userUpdate.getName(), userUpdate.getUsername(),
+        encryptedPassword, userUpdate.getId());
+
+    return userUpdate;
+  }
 
   public String deleteUser(String id) throws Exception {
     try {
