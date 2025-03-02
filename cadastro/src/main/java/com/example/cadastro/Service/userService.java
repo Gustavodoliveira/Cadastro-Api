@@ -1,5 +1,7 @@
 package com.example.cadastro.Service;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,10 +43,9 @@ public class userService {
 
       repository.save(newUser);
       return newUser;
-    } catch (Exception e) {
-      throw new Exception(e);
+    } catch (SQLException e) {
+      throw new Exception(e.getLocalizedMessage());
     }
-
   }
 
   public Authentication LoginUser(userLoginDto data) {
@@ -86,7 +87,7 @@ public class userService {
 
   public String deleteUser(String id) throws Exception {
     try {
-
+      repository.findById(id);
       repository.deleteById(id);
       return "User delete success";
     } catch (Exception e) {

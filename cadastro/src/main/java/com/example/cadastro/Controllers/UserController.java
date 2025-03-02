@@ -35,7 +35,7 @@ public class UserController {
       String token = tokenService.generateToken(usr);
       return ResponseEntity.ok().body(token);
     } catch (Exception e) {
-      throw new Exception(e);
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
 
