@@ -24,4 +24,13 @@ public class departmentService {
       throw new Exception(e.getLocalizedMessage());
     }
   }
+
+  public String deleteDepartment(String id) throws Exception {
+    try {
+      departmentRepository.deleteById(id);
+      return "Department delete success";
+    } catch (Exception e) {
+      throw new Exception(e.getLocalizedMessage());
+    }
+  }
 }
