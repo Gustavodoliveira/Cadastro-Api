@@ -1,5 +1,7 @@
 package com.example.cadastro.models;
 
+import com.example.cadastro.Dtos.department.departmentRegister;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,9 +24,14 @@ public class Department {
   private String id;
 
   @Column(nullable = false)
-  private Float salary;
+  private Double salary;
 
   @Column(nullable = false)
   private String name;
+
+  public Department(departmentRegister data) {
+    this.name = data.name();
+    this.salary = data.salary();
+  }
 
 }
