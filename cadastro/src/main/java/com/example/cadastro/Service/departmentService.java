@@ -15,7 +15,7 @@ public class departmentService {
   @Autowired
   private departmentRepository departmentRepository;
 
-  private String saveDepartment(departmentRegister data) throws Exception {
+  public String saveDepartment(departmentRegister data) throws Exception {
     try {
       Department newDepartment = new Department(data);
       departmentRepository.save(newDepartment);
