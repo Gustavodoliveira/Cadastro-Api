@@ -30,8 +30,11 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
             .requestMatchers(HttpMethod.PATCH, "/user/update/{id}").permitAll()
-            .requestMatchers(HttpMethod.POST, "department/register").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "department/delete/{id}").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/department/register").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/department/{id}").permitAll()
+            .requestMatchers(HttpMethod.GET, "/department").permitAll()
+            .requestMatchers(HttpMethod.PATCH, "/department/update/{id}").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/department/delete/{id}").hasRole("ADMIN")
             .anyRequest().authenticated())
         .addFilterBefore(FilterSecurity, UsernamePasswordAuthenticationFilter.class)
         .build();
