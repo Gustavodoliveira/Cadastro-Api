@@ -60,7 +60,7 @@ public class DepartmentController {
   }
 
   @PatchMapping("/update/{id}")
-  private ResponseEntity updateDepartment(@PathVariable String id, updateDepartment data) {
+  private ResponseEntity updateDepartment(@PathVariable String id, @RequestBody updateDepartment data) {
     try {
       String res = departmentService.updateDepartment(data, id);
       return ResponseEntity.ok().body(res);
