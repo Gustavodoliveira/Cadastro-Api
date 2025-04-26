@@ -14,12 +14,12 @@ public class UserService {
   @Autowired
   userRepository userRepository;
 
-  public String registerUser(userRegisterDto data) throws Exception {
+  public User registerUser(userRegisterDto data) throws Exception {
     try {
       String passwordEncrypted = new BCryptPasswordEncoder().encode(data.password());
       User newUser = new User(data, passwordEncrypted);
       userRepository.save(newUser);
-      return "success creating user";
+      return newUser;
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }
