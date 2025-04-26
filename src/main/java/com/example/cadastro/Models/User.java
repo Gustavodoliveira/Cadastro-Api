@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.cadastro.Dtos.users.userRegisterDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +38,7 @@ public class User implements UserDetails {
   @Column(length = 30, nullable = false)
   public String userName;
 
-  @Column(length = 30, nullable = false)
+  @Column(nullable = false)
   public String password;
 
   @Column(nullable = false)
@@ -48,6 +50,13 @@ public class User implements UserDetails {
       return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
     else
       return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+  }
+
+  public User(userRegisterDto data, String passwordEncrypted) {
+    this.email = data.email();
+    this.userName = data.userName();
+    this.password = passwordEncrypted;
+    this.role = data.role();
   }
 
   @Override
