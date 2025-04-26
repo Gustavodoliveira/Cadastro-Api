@@ -7,5 +7,6 @@ import com.example.cadastro.Models.User;
 
 @Repository
 public interface userRepository extends JpaRepository<User, String> {
+  public User findByEmail(String email);
 
 }
