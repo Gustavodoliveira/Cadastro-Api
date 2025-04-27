@@ -1,6 +1,7 @@
 package com.example.cadastro.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,5 +51,14 @@ public class UserService {
   public static boolean EmailIsValid(String email) {
     Matcher matcher = pattern.matcher(email);
     return matcher.matches();
+  }
+
+  public Optional<User> getUserById(String id) throws Exception {
+    try {
+      Optional<User> usr = userRepository.findById(id);
+      return usr;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
   }
 }

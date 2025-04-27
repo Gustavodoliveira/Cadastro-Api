@@ -1,11 +1,13 @@
 package com.example.cadastro.Controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +46,16 @@ public class UserController {
     try {
       List<User> usrs = userService.getAllUser();
       return ResponseEntity.ok().body(usrs);
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
+  @GetMapping("/{id}")
+  private ResponseEntity getUserById(@PathVariable String id) throws Exception {
+    try {
+      Optional<User> usr = userService.getUserById(id);
+      return ResponseEntity.ok().body(usr);
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }
