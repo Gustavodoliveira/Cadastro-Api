@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,6 +57,16 @@ public class UserController {
     try {
       Optional<User> usr = userService.getUserById(id);
       return ResponseEntity.ok().body(usr);
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
+  @DeleteMapping("/{id}")
+  private ResponseEntity deleteUserById(@PathVariable String id) throws Exception {
+    try {
+      String resp = userService.deleteUser(id);
+      return ResponseEntity.ok().body(resp);
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }

@@ -61,4 +61,13 @@ public class UserService {
       throw new Exception(e.getMessage());
     }
   }
+
+  public String deleteUser(String id) throws Exception {
+    try {
+      userRepository.deleteById(id);
+      return "user delete success";
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
 }
