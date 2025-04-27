@@ -61,6 +61,6 @@ public class User implements UserDetails {
 
   @Override
   public String getUsername() {
-    return this.getUsername();
+    return this.userName;
   }
 }
