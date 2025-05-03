@@ -11,11 +11,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.example.cadastro.Dtos.users.userRegisterDto;
+import com.example.cadastro.Dtos.users.userUpdate;
 import com.example.cadastro.Models.User;
 import com.example.cadastro.repository.userRepository;
+import com.example.cadastro.security.FilterSecurity;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService {
+
+  @Autowired
+  HttpServletRequest req;
+
+  @Autowired
+  FilterSecurity filterSecurity;
+
+  @Autowired
+  TokenService tokenService;
+
+  @Autowired
+  private userRepository repository;
 
   private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
       + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -30,7 +46,6 @@ public class UserService {
     if (emailIsValid == false)
       throw new Exception("Your e-mail is invalid, try again");
     try {
-      System.out.println(emailIsValid);
       String passwordEncrypted = new BCryptPasswordEncoder().encode(data.password());
       User newUser = new User(data, passwordEncrypted);
       userRepository.save(newUser);
@@ -69,5 +84,38 @@ public class UserService {
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }
+  }
+
+  public User updateUser(userUpdate data, String id) throws Exception {
+    Optional<User> user = userRepository.findById(id);
+
+    String email = user.orElseThrow().getEmail();
+    User userUpdate = new User();
+
+    userUpdate.setId(user.orElseThrow().getId());
+    userUpdate.setRole(user.orElseThrow().getRole());
+
+    if (data.email() == null)
+      userUpdate.setEmail(user.orElseThrow().getEmail());
+    else
+      userUpdate.setEmail(data.email());
+
+    if (data.userName() == null)
+      userUpdate.setUserName(user.orElseThrow().getUsername());
+    else
+      userUpdate.setUserName(data.userName());
+
+    if (data.password() == null)
+      userUpdate.setPassword(user.orElseThrow().getPassword());
+    else
+      userUpdate.setPassword(data.password());
+
+    String encryptedPassword = new BCryptPasswordEncoder().encode(userUpdate.getPassword());
+
+    repository.updateUser(userUpdate.getEmail(), userUpdate.getUsername(),
+        encryptedPassword, email);
+
+    return userUpdate;
+
   }
 }
