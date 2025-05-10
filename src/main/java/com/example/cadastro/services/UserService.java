@@ -6,10 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.example.cadastro.Dtos.users.userLoginDto;
 import com.example.cadastro.Dtos.users.userRegisterDto;
 import com.example.cadastro.Dtos.users.userUpdate;
 import com.example.cadastro.Models.User;
@@ -32,6 +36,9 @@ public class UserService {
 
   @Autowired
   private userRepository repository;
+
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
   private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
       + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -116,6 +123,14 @@ public class UserService {
         encryptedPassword, email);
 
     return userUpdate;
+
+  }
+
+  public Authentication LoginUser(userLoginDto data) throws Exception {
+
+    var userNamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+    var auth = this.authenticationManager.authenticate(userNamePassword);
+    return auth;
 
   }
 }
