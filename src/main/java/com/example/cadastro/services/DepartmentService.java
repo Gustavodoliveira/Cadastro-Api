@@ -1,5 +1,8 @@
 package com.example.cadastro.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,24 @@ public class DepartmentService {
       Department newDpt = new Department(data);
       departmentRepository.save(newDpt);
       return newDpt;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
+  public Optional<Department> getDepartmentById(String id) throws Exception {
+    try {
+      Optional<Department> department = this.departmentRepository.findById(id);
+      return department;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
+  public List<Department> getAllDepartment() throws Exception {
+    try {
+      List<Department> departments = this.departmentRepository.findAll();
+      return departments;
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }
