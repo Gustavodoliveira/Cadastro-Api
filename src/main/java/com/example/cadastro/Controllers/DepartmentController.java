@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,4 +55,13 @@ public class DepartmentController {
     }
   }
 
+  @DeleteMapping("/delete/{id}")
+  private ResponseEntity deleteDepartmentById(@PathVariable String id) {
+    try {
+      String resp = this.departmentService.deleteDepartment(id);
+      return ResponseEntity.ok().body(resp);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
 }

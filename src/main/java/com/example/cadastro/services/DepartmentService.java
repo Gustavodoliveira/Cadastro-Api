@@ -1,7 +1,9 @@
 package com.example.cadastro.services;
 
+import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,16 @@ public class DepartmentService {
     try {
       List<Department> departments = this.departmentRepository.findAll();
       return departments;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
+  public String deleteDepartment(String id) throws Exception {
+    try {
+      Optional<Department> department = this.departmentRepository.findById(id);
+      this.departmentRepository.deleteById(id);
+      return "Delete " + department.orElseThrow().getDepartment() + " success";
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }
