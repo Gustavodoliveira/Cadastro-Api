@@ -64,6 +64,8 @@ public class User implements UserDetails {
     this.userName = data.userName();
     this.password = passwordEncrypted;
     this.role = data.role();
+    this.department = data.department();
+
   }
 
   @Override

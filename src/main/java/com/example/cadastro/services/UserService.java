@@ -84,6 +84,15 @@ public class UserService {
     }
   }
 
+  public List<User> getUserByDepartmentId(String id) throws Exception {
+    try {
+      List<User> usrs = this.userRepository.findUserByDepartmentId(id);
+      return usrs;
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
   public String deleteUser(String id) throws Exception {
     try {
       userRepository.deleteById(id);

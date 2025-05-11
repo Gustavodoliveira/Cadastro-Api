@@ -88,6 +88,16 @@ public class UserController {
     }
   }
 
+  @GetMapping("/getUserByDepartment/{id}")
+  private ResponseEntity getUsersByDepartment(@PathVariable String id) {
+    try {
+      List<User> usrs = this.userService.getUserByDepartmentId(id);
+      return ResponseEntity.ok().body(usrs);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
+
   @PatchMapping("/update/{id}")
   private ResponseEntity updateUser(@PathVariable String id, @RequestBody @Validated userUpdate data) throws Exception {
 
